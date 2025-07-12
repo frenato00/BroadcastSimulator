@@ -1,4 +1,7 @@
+# Broadcast Simulator
+
 To run the project I sugest oppening with VS Code and using the extension Live Now to start the project locally.
+
 <img width="781" height="678" alt="image" src="https://github.com/user-attachments/assets/b9ce1197-51ae-44ee-b55a-b5da5affa36b" />
 
 ## How to use:
