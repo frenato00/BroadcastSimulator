@@ -1,4 +1,4 @@
-class Gui {
+class GraficInterface {
     constructor(network) {
         this.params = {
             showConnections: true,
@@ -7,18 +7,18 @@ class Gui {
             lineThicknessMin: 1,
             lineThicknessMax: 5
         };
-    
-        const gui = createGui('Network Controls');
-        gui.addObject(this.params);
+
+        this.gui = createGui('Network Controls');
+        this.gui.addObject(this.params);
         this.network = network;
     }
-  
+
     draw() {
         this.network.draw(
             this.params.showConnections,
             this.params.showRanges,
             this.params.lineThickness
-          );
+        );
 
         // Hover logic: show range circle if mouse is near any node
         for (let node of this.network.nodes) {

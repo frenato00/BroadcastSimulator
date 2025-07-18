@@ -5,12 +5,12 @@ class Network {
 		this.max_range_diff = max_range_diff;
 		for (let i = 0; i < number_of_nodes; i++) {
 			let x, y, range;
-			for(let j = 0; j < 5; j++){
+			for (let j = 0; j < 5; j++) {
 				x = Math.random() * width;
 				y = Math.random() * height;
 				range = Math.random() * max_range_diff + min_range; // range between 10 and 60
 
-				if (this.nodeTooClose(x, y, closenessFactor * range) == -1){
+				if (this.nodeTooClose(x, y, closenessFactor * range) == -1) {
 					break
 				}
 			}
@@ -25,21 +25,21 @@ class Network {
 
 	click(x, y, mousePressed) {
 		let index = this.nodeTooClose(x, y, 20);
-		if(mousePressed == LEFT){
+		if (mousePressed == LEFT) {
 
-			if(index == -1){
+			if (index == -1) {
 				this.addNodeAt(x, y);
 			}
 			else {
 				this.nodes[index].switchStatus();
 			}
 		}
-		else if (mousePressed == RIGHT && index != -1){
-			this.nodes.splice(index,1);
+		else if (mousePressed == RIGHT && index != -1) {
+			this.nodes.splice(index, 1);
 		}
 	}
-	
-	nodeTooClose(x, y, closeness){
+
+	nodeTooClose(x, y, closeness) {
 		for (let i = 0; i < this.nodes.length; i++) {
 			const dx = this.nodes[i].position.x - x;
 			const dy = this.nodes[i].position.y - y;
@@ -61,30 +61,30 @@ class Network {
 		this.nodes.forEach((node) => node.deactivate());
 	}
 
-  	draw(isToDrawConnections = true, isToDrawRanges = false, lineThickness = 1) {	
+	draw(isToDrawConnections = true, isToDrawRanges = false, lineThickness = 1) {
 		// Draw connections between nodes in range
 		if (isToDrawConnections) {
 			this.drawConnections(lineThickness);
 		}
-		
+
 		// Draw the nodes themselves
-		this.nodes.forEach(node => node.draw(isToDrawRanges));  
+		this.nodes.forEach(node => node.draw(isToDrawRanges));
 	}
 
-	drawConnections(thickness){
+	drawConnections(thickness) {
 		strokeWeight(thickness);
-	  
+
 		for (let i = 0; i < this.nodes.length; i++) {
 			for (let j = i + 1; j < this.nodes.length; j++) {
 				const nodeA = this.nodes[i];
 				const nodeB = this.nodes[j];
-				if (nodeA.status == false || nodeB.status == false){
+				if (nodeA.status == false || nodeB.status == false) {
 					continue;
 				}
-	  
+
 				const AtoB = nodeA.isWithinRange(nodeB);
 				const BtoA = nodeB.isWithinRange(nodeA);
-	  
+
 				if (AtoB && BtoA) {
 					// Mutual range: green thick line
 					stroke('green');
@@ -102,7 +102,7 @@ class Network {
 						toNode = nodeA;
 					}
 					line(fromNode.position.x, fromNode.position.y, toNode.position.x, toNode.position.y);
-		
+
 					// Draw arrow pointing from 'fromNode' to 'toNode'
 					push();
 					stroke('yellow');
@@ -110,22 +110,22 @@ class Network {
 					const dx = toNode.position.x - fromNode.position.x;
 					const dy = toNode.position.y - fromNode.position.y;
 					const angle = atan2(dy, dx);
-		
+
 					// Find midpoint of line
 					const midX = (fromNode.position.x + toNode.position.x) / 2;
 					const midY = (fromNode.position.y + toNode.position.y) / 2;
-		
+
 					translate(midX, midY);
 					rotate(angle);
-		
+
 					// Draw small triangle (arrowhead) pointing right
 					const arrowSize = 8;
 					triangle(0, 0, -arrowSize, arrowSize / 2, -arrowSize, -arrowSize / 2);
 					pop();
-		
+
 					strokeWeight(thickness);
 				}
-			}	
+			}
 		}
 	}
 }
